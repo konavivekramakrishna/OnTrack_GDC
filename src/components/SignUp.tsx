@@ -4,12 +4,11 @@ import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
-import { navigate } from "raviger";
+
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import MainLogo from "../assets/MainLogo";
+
 import { login, signup } from "../utils/apiutils";
 import Loader from "./Loader";
 
@@ -150,6 +149,7 @@ export default function SignUp(props: { handleSignupCB: () => void }) {
                 </Link>
               </Grid>
             </Grid>
+            {error && <div className="text-red-500">{error}</div>}
           </Box>
         </>
       )}

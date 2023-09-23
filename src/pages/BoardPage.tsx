@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import   { useEffect, useState } from "react";
 import { Button, Container, Grid, Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { navigate } from "raviger";
@@ -17,7 +17,7 @@ import Loader from "../components/Loader";
 import "react-toastify/dist/ReactToastify.css";
 import { toast, ToastContainer } from "react-toastify";
 import AddTask from "../components/TaskCRUD/AddTask";
-import TaskEdit from "../components/TaskCRUD/TaskEditAndDelete";
+ 
 import TaskEditAndDelete from "../components/TaskCRUD/TaskEditAndDelete";
 
 interface Props {
@@ -42,11 +42,7 @@ export default function BoardPage(props: Props) {
   const toggleNewTask = () => {
     setNewTask(!newTask);
   };
-
-  const displayTaskModal = (id: number) => {
-    setTaskId(id);
-    setEditAndDeleteTask(true);
-  };
+ 
 
   const updateTask = (updatedTask: Task) => {
     setTasks((prevTasks) =>

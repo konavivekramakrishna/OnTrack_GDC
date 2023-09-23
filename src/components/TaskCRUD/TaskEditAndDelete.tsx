@@ -10,7 +10,7 @@ import {
 } from "@material-tailwind/react";
 import { Task, Errors, validateTask } from "../../types/types";
 import {
-  createNewTask,
+ 
   deleteTaskWithBoardId,
   updateTaskWithBoardId,
 } from "../../utils/apiutils";

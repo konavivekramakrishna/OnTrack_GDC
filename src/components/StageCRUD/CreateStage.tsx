@@ -10,7 +10,6 @@ import {
 } from "@material-tailwind/react";
 import { Stage, Errors, validate } from "../../types/types";
 import { createNewStage } from "../../utils/apiutils";
-import { navigate } from "raviger";
 
 export default function CreateStage(props: {
   open: boolean;
