@@ -6,7 +6,7 @@ import {
 } from "@material-tailwind/react";
 import { Link } from "raviger";
 
-import { DragDropContext } from "react-beautiful-dnd";
+// import { DragDropContext } from "react-beautiful-dnd";
 
 export default function BoardCard(props: {
   title: string;
