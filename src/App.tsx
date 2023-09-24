@@ -9,6 +9,7 @@ import CenteredLoader from "./components/CenteredLoader";
 import * as Sentry from "@sentry/react";
 
 Sentry.init({
+  sendClientReports: false,
   dsn: "https://79c5a83d074900fa122c5a9ef55f1980@o4505896747401216.ingest.sentry.io/4505931765055488",
   integrations: [
     new Sentry.BrowserTracing({
