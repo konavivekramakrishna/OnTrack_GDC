@@ -49,15 +49,21 @@ export const apiCall = async (
     body: method !== "GET" ? payload : null,
   });
 
+  if (!res.ok) {
+    console.error("Request failed with status:", res.status);
+    return null;
+  }
+
   try {
-    const json = await res.json();
-    if (res.ok) {
-      return json;
+    const text = await res.text();
+    if (text) {
+      return JSON.parse(text);
     } else {
-      throw Error(json);
+      return null;
     }
   } catch (error) {
-    console.log(error);
+    console.error("Error parsing JSON:", error);
+    return null;
   }
 };
 
