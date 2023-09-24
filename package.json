@@ -19,9 +19,11 @@
     "@types/node": "^16.18.53",
     "@types/react": "^18.2.22",
     "@types/react-dom": "^18.2.7",
+    "aria-hidden": "^1.2.3",
     "heroicons": "^2.0.18",
     "raviger": "^4.1.2",
     "react": "^18.2.0",
+    "react-beautiful-dnd": "^13.1.1",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
     "react-spinners": "^0.13.8",
@@ -66,6 +68,7 @@
     ]
   },
   "devDependencies": {
+    "@types/react-beautiful-dnd": "^13.1.4",
     "autoprefixer": "^10.4.16",
     "postcss": "^8.4.30",
     "tailwindcss": "^3.3.3"

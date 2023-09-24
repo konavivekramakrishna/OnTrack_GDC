@@ -1,4 +1,3 @@
- 
 import {
   Board,
   Method,
@@ -38,7 +37,6 @@ export const apiCall = async (
   }
 
   const token = getToken();
-  console.log(token);
 
   const auth = token ? "Token " + token : "";
 

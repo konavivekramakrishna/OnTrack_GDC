@@ -19,7 +19,7 @@ export default function SignUp(props: { handleSignupCB: () => void }) {
   const [password2, setPassword2] = React.useState("");
   const [error, setError] = React.useState("");
   const [load, setLoad] = React.useState(false);
-  const [rememberMe, setRememberMe] = React.useState(false); // State to track the checkbox
+  const [rememberMe, setRememberMe] = React.useState(false);
 
   const submit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

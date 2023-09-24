@@ -44,7 +44,7 @@ export default function Login(props: { handleSignupCB: () => void }) {
       }
     } catch (error) {
       console.log(error);
-      setLoading(false); // Hide loader on error
+      setLoading(false);  
     }
   };
 

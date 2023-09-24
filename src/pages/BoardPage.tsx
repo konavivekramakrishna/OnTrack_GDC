@@ -1,4 +1,4 @@
-import   { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Container, Grid, Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { navigate } from "raviger";
@@ -6,6 +6,7 @@ import { Sidebar } from "../components/Sidebar";
 import CreateStage from "../components/StageCRUD/CreateStage";
 import { StageCard } from "../components/StageCRUD/StageCard";
 import EditStage from "../components/StageCRUD/EditStage";
+
 import {
   deleteStageWithId,
   getAllStages,
@@ -17,7 +18,7 @@ import Loader from "../components/Loader";
 import "react-toastify/dist/ReactToastify.css";
 import { toast, ToastContainer } from "react-toastify";
 import AddTask from "../components/TaskCRUD/AddTask";
- 
+
 import TaskEditAndDelete from "../components/TaskCRUD/TaskEditAndDelete";
 
 interface Props {
@@ -42,7 +43,6 @@ export default function BoardPage(props: Props) {
   const toggleNewTask = () => {
     setNewTask(!newTask);
   };
- 
 
   const updateTask = (updatedTask: Task) => {
     setTasks((prevTasks) =>
@@ -231,7 +231,7 @@ export default function BoardPage(props: Props) {
         )}
 
         {newStage && (
-          <div id="modal-root">
+          <div id="modal">
             <CreateStage
               addStageCB={(stage: Stage) => {
                 setStages([...stages, stage]);
