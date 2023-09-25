@@ -131,7 +131,7 @@ export const deleteTaskWithBoardId = (bid: number, tid: number) => {
 
 // stages CRUD
 
-export const createNewStage = (stage: Stage) => {
+export const createNewStage = (stage: Partial<Stage>) => {
   return apiCall("status/", "POST", stage);
 };
 

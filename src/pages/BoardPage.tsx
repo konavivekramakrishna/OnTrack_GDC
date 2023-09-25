@@ -42,6 +42,44 @@ export default function BoardPage(props: Props) {
   const [taskId, setTaskId] = useState(0);
   const [editAndDeleteTask, setEditAndDeleteTask] = useState(false);
 
+  const [multiSelectedTaskIds, setMultiSelectedTaskIds] = useState<number[]>(
+    []
+  );
+
+  const [dragginId, setDraggingId] = useState<number | null>(null);
+
+  const handleClick = (event: React.MouseEvent) => {
+    if (event.defaultPrevented) {
+      return;
+    }
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.defaultPrevented) {
+      return;
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("click", handleClick as unknown as EventListener);
+
+    window.addEventListener(
+      "keydown",
+      handleKeyDown as unknown as EventListener
+    );
+
+    return () => {
+      window.removeEventListener(
+        "click",
+        handleClick as unknown as EventListener
+      );
+      window.removeEventListener(
+        "keydown",
+        handleKeyDown as unknown as EventListener
+      );
+    };
+  }, [multiSelectedTaskIds]);
+
   const toggleNewTask = () => {
     setNewTask(!newTask);
   };
@@ -105,6 +143,36 @@ export default function BoardPage(props: Props) {
         position: "top-right",
         autoClose: 3000,
       });
+    }
+  };
+
+  const toggleSelection = (taskId: number) => {
+    const updatedSelectedTaskIds = [...multiSelectedTaskIds];
+
+    const selectedStageId = tasks.find((t) => t.id === taskId)?.status_object
+      ?.id;
+
+    const isTaskSelected = updatedSelectedTaskIds.includes(taskId);
+
+    if (isTaskSelected) {
+      updatedSelectedTaskIds.splice(updatedSelectedTaskIds.indexOf(taskId), 1);
+    } else {
+      updatedSelectedTaskIds.push(taskId);
+    }
+
+    const selectedStages = tasks
+      .filter((t) => updatedSelectedTaskIds.includes(t.id as number))
+      .map((t) => t.status_object?.id)
+      .filter((id) => typeof id === "number");
+
+    const isSameStage = selectedStages.every(
+      (stageId) => stageId === selectedStageId
+    );
+
+    if (isSameStage) {
+      setMultiSelectedTaskIds(updatedSelectedTaskIds);
+    } else {
+      setMultiSelectedTaskIds([taskId]);
     }
   };
 
@@ -182,34 +250,73 @@ export default function BoardPage(props: Props) {
                   if (destination.droppableId === source.droppableId) {
                     return;
                   }
-                  setTasks((prevTasks) => {
-                    return prevTasks.map((t) => {
-                      if (t.id === Number(draggableId)) {
-                        return {
-                          ...t,
-                          status: Number(destination.droppableId),
-                          status_object: {
-                            id: Number(destination.droppableId),
-                          },
-                        };
-                      } else {
-                        return t;
-                      }
-                    });
-                  });
 
-                  moveTaskWithInBoard(
-                    props.id,
-                    Number(draggableId),
-                    Number(destination.droppableId)
+                  const isTaskSelected = multiSelectedTaskIds.includes(
+                    Number(draggableId)
                   );
+
+                  if (isTaskSelected) {
+                    multiSelectedTaskIds.forEach((taskId) => {
+                      multiSelectedTaskIds.forEach((taskId) => {
+                        // Update tasks for view
+                        setTasks((prevTasks) => {
+                          return prevTasks.map((t) => {
+                            if (t.id === taskId) {
+                              return {
+                                ...t,
+                                status: Number(destination.droppableId),
+                                status_object: {
+                                  id: Number(destination.droppableId),
+                                },
+                              };
+                            } else {
+                              return t;
+                            }
+                          });
+                        });
+
+                        // Update tasks in the database
+                        moveTaskWithInBoard(
+                          props.id,
+                          taskId,
+                          Number(destination.droppableId)
+                        );
+                      });
+                    });
+                    setMultiSelectedTaskIds([]);
+                  } else {
+                    setTasks((prevTasks) => {
+                      return prevTasks.map((t) => {
+                        if (t.id === Number(draggableId)) {
+                          return {
+                            ...t,
+                            status: Number(destination.droppableId),
+                            status_object: {
+                              id: Number(destination.droppableId),
+                            },
+                          };
+                        } else {
+                          return t;
+                        }
+                      });
+                    });
+                    moveTaskWithInBoard(
+                      props.id,
+                      Number(draggableId),
+                      Number(destination.droppableId)
+                    );
+                    setMultiSelectedTaskIds([]);
+                  }
                 }}
               >
                 <div className="flex p-4 mt-5">
                   {stages.map((stage) => (
                     <div key={stage.id} className="mx-2">
                       <StageCard
-                        key={Number(Math.random() * 10000000)}
+                        selectedTaskIds={multiSelectedTaskIds}
+                        draggingTaskId={dragginId}
+                        toggleSelection={toggleSelection}
+                        key={Number(Math.random() * 10000000000)}
                         onDeleteCB={() => handleDeleteStage(stage.id)}
                         tasks={tasks.filter(
                           (t) => t.status_object?.id === stage.id

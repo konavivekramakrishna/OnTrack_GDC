@@ -10,6 +10,9 @@ import { TaskCard } from "../TaskCRUD/TaskCard";
 import { Droppable } from "react-beautiful-dnd";
 
 export function StageCard(props: {
+  selectedTaskIds: number[];
+  draggingTaskId: number | null;
+  toggleSelection: (taskId: number) => void;
   key: number;
   stage: Stage;
   onEditCB: () => void;
@@ -94,6 +97,10 @@ export function StageCard(props: {
           >
             {props.tasks.map((task, index) => (
               <TaskCard
+                index={index}
+                selectedTaskIds={props.selectedTaskIds}
+                draggingTaskId={props.draggingTaskId}
+                toggleSelection={props.toggleSelection}
                 key={(task.id as number) + 1}
                 onEditAndDeleteTaskCB={props.onEditAndDeleteTaskCB}
                 task={task}

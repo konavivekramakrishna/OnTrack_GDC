@@ -38,7 +38,7 @@ export type upTask = {
 };
 
 export type Stage = {
-  id?: number;
+  id: number;
   title: string;
   description: string;
 };

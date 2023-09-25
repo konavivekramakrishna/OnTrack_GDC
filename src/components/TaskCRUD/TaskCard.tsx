@@ -6,6 +6,10 @@ import { Draggable } from "react-beautiful-dnd";
 export function TaskCard(props: {
   task: Task;
   onEditAndDeleteTaskCB: (tid: number) => void;
+  index: number;
+  selectedTaskIds: number[];
+  toggleSelection: (taskId: number) => void;
+  draggingTaskId: number | null;
 }) {
   const priority = props.task.description.priority;
 
@@ -20,25 +24,40 @@ export function TaskCard(props: {
     }
   };
 
+  const isTaskSelected = props.selectedTaskIds.includes(props.task.id || 0);
+
+  const handleClick = (event: React.MouseEvent) => {
+    if (event.ctrlKey) {
+      props.toggleSelection(props.task.id || 0);
+    }
+  };
+
   return (
     <Draggable
       draggableId={`${props.task.id}`}
       key={`${props.task.id}`}
-      index={props.task.id as number}
+      index={props.index}
     >
       {(provided, snapshot) => (
         <div
-          className="relative z-0"
+          className={`relative z-0 ${
+            snapshot.isDragging ? "border border-blue-gray-300" : ""
+          }`}
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
+          onClick={handleClick}
         >
           <div
-            className={`flex flex-col w-full  m-1 rounded-lg   ${
-              snapshot.isDragging ? "border  border-blue-gray-300" : ""
+            className={`flex flex-col w-full m-1 rounded-lg ${
+              isTaskSelected ? "bg-blue-100" : ""
             }`}
           >
-            <Card className="w-[22rem] group hover:bg-gray-50 transition duration-300 m-2">
+            <Card
+              className={`w-[22rem] group hover:bg-gray-50 transition duration-300 m-2 ${
+                isTaskSelected ? "border border-blue-500" : ""
+              }`}
+            >
               <CardBody className="p-3">
                 <div className="mb-3 flex items-center justify-between">
                   {props.task.title && (

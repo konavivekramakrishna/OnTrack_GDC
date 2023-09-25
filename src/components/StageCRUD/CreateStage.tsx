@@ -8,7 +8,7 @@ import {
   Textarea,
 } from "@material-tailwind/react";
 import Dialog from "@mui/material/Dialog";
-import { Stage, Errors, validate } from "../../types/types";
+import { Stage, Errors, validate, Board } from "../../types/types";
 import { createNewStage } from "../../utils/apiutils";
 
 export default function CreateStage(props: {
@@ -17,7 +17,7 @@ export default function CreateStage(props: {
   addStageCB: (stage: Stage) => void;
 }) {
   const [open, setOpen] = useState(props.open);
-  const [stage, setStage] = useState<Stage>({
+  const [stage, setStage] = useState<Partial<Stage>>({
     title: "",
     description: "",
   });
@@ -43,7 +43,7 @@ export default function CreateStage(props: {
 
   const handleSubmit = async () => {
     setLoad(true);
-    const vErrors = validate(stage);
+    const vErrors = validate(stage as Board);
 
     if (Object.keys(vErrors).length > 0) {
       setErrors(vErrors);
