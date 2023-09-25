@@ -225,6 +225,9 @@ export default function BoardPage(props: Props) {
                       {board.description}
                     </Typography>
                   </div>
+                  <div className="  bottom-4 right-4 m-2 bg-gray-100 p-2 rounded text-sm text-gray-500">
+                    Use ctrl or cmd to multi-select tasks and dnd
+                  </div>
                   <Grid container spacing={3}>
                     <Grid item xs={12}>
                       <Button
@@ -256,7 +259,6 @@ export default function BoardPage(props: Props) {
                   if (isTaskSelected) {
                     multiSelectedTaskIds.forEach((taskId) => {
                       multiSelectedTaskIds.forEach((taskId) => {
-                        // Update tasks for view
                         setTasks((prevTasks) => {
                           return prevTasks.map((t) => {
                             if (t.id === taskId) {
@@ -273,7 +275,6 @@ export default function BoardPage(props: Props) {
                           });
                         });
 
-                        // Update tasks in the database
                         moveTaskWithInBoard(
                           props.id,
                           taskId,

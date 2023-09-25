@@ -9,7 +9,6 @@ export function TaskCard(props: {
   index: number;
   selectedTaskIds: number[];
   toggleSelection: (taskId: number) => void;
- 
 }) {
   const priority = props.task.description.priority;
 
@@ -27,7 +26,7 @@ export function TaskCard(props: {
   const isTaskSelected = props.selectedTaskIds.includes(props.task.id || 0);
 
   const handleClick = (event: React.MouseEvent) => {
-    if (event.ctrlKey) {
+    if (event.ctrlKey || event.metaKey) {
       props.toggleSelection(props.task.id || 0);
     }
   };
