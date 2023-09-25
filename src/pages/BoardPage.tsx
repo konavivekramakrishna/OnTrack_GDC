@@ -12,6 +12,7 @@ import {
   getAllStages,
   getBoard,
   getTaskWithBoardId,
+  moveTaskWithInBoard,
 } from "../utils/apiutils";
 import { Board, Stage, Task } from "../types/types";
 import Loader from "../components/Loader";
@@ -20,6 +21,7 @@ import { toast, ToastContainer } from "react-toastify";
 import AddTask from "../components/TaskCRUD/AddTask";
 
 import TaskEditAndDelete from "../components/TaskCRUD/TaskEditAndDelete";
+import { DragDropContext } from "react-beautiful-dnd";
 
 interface Props {
   id: number;
@@ -171,25 +173,59 @@ export default function BoardPage(props: Props) {
                   </Grid>
                 </div>
               </Container>
-              <div className="flex p-4 mt-5">
-                {stages.map((stage) => (
-                  <div key={stage.id} className="mx-2">
-                    <StageCard
-                      onDeleteCB={() => handleDeleteStage(stage.id)}
-                      tasks={tasks.filter(
-                        (t) => t.status_object?.id === stage.id
-                      )}
-                      stage={stage}
-                      onEditAndDeleteTaskCB={handleEditAndDeleteTask}
-                      onEditCB={() => handleEditStage(stage)}
-                      AddTaskCB={() => {
-                        setSelectedStage(stage);
-                        toggleNewTask();
-                      }}
-                    />
-                  </div>
-                ))}
-              </div>
+              <DragDropContext
+                onDragEnd={(res) => {
+                  const { destination, source, draggableId } = res;
+                  if (!destination) {
+                    return;
+                  }
+                  if (destination.droppableId === source.droppableId) {
+                    return;
+                  }
+                  setTasks((prevTasks) => {
+                    return prevTasks.map((t) => {
+                      if (t.id === Number(draggableId)) {
+                        return {
+                          ...t,
+                          status: Number(destination.droppableId),
+                          status_object: {
+                            id: Number(destination.droppableId),
+                          },
+                        };
+                      } else {
+                        return t;
+                      }
+                    });
+                  });
+
+                  moveTaskWithInBoard(
+                    props.id,
+                    Number(draggableId),
+                    Number(destination.droppableId)
+                  );
+                }}
+              >
+                <div className="flex p-4 mt-5">
+                  {stages.map((stage) => (
+                    <div key={stage.id} className="mx-2">
+                      <StageCard
+                        key={Number(Math.random() * 10000000)}
+                        onDeleteCB={() => handleDeleteStage(stage.id)}
+                        tasks={tasks.filter(
+                          (t) => t.status_object?.id === stage.id
+                        )}
+                        stage={stage}
+                        onEditAndDeleteTaskCB={handleEditAndDeleteTask}
+                        onEditCB={() => handleEditStage(stage)}
+                        AddTaskCB={() => {
+                          setSelectedStage(stage);
+                          toggleNewTask();
+                        }}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </DragDropContext>
             </div>
           </div>
         )}

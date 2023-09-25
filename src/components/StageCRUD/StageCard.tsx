@@ -7,8 +7,10 @@ import {
 } from "@material-tailwind/react";
 import { Stage, Task } from "../../types/types";
 import { TaskCard } from "../TaskCRUD/TaskCard";
+import { Droppable } from "react-beautiful-dnd";
 
 export function StageCard(props: {
+  key: number;
   stage: Stage;
   onEditCB: () => void;
   onDeleteCB: () => void;
@@ -70,22 +72,37 @@ export function StageCard(props: {
             </Typography>
           </div>
         </div>
-        <Typography color="gray">{props.stage.description}</Typography>
+        <Typography className="p-2 ml-2" color="gray">
+          {props.stage.description}
+        </Typography>
         <CardFooter className="pt-3">
           <Button size="sm" onClick={props.AddTaskCB} fullWidth={true}>
             Add Task
           </Button>
         </CardFooter>
       </CardBody>
-      <div className="p-3">
-        {props.tasks.map((task, index) => (
-          <TaskCard
-            key={index}
-            onEditAndDeleteTaskCB={props.onEditAndDeleteTaskCB}
-            task={task}
-          />
-        ))}
-      </div>
+
+      <Droppable
+        droppableId={props.stage.id?.toString() || ""}
+        key={props.stage.id}
+      >
+        {(provided) => (
+          <div
+            className="p-3"
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+          >
+            {props.tasks.map((task, index) => (
+              <TaskCard
+                key={(task.id as number) + 1}
+                onEditAndDeleteTaskCB={props.onEditAndDeleteTaskCB}
+                task={task}
+              />
+            ))}
+            {provided.placeholder}
+          </div>
+        )}
+      </Droppable>
     </Card>
   );
 }
