@@ -7,6 +7,7 @@ import { User } from "./types/types";
 import UnauthorizedUserRoutes from "./router/UnauthorizedUserRoutes";
 import CenteredLoader from "./components/CenteredLoader";
 import * as Sentry from "@sentry/react";
+ 
 
 Sentry.init({
   sendClientReports: false,
