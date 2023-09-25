@@ -1,4 +1,4 @@
-import { useRoutes } from "raviger";
+import { Redirect, useRoutes } from "raviger";
 
 import { Suspense, lazy } from "react";
 
@@ -13,6 +13,7 @@ export default function UnauthorizedUserRoutes() {
         <LoginAndSignUp />
       </Suspense>
     ),
+    "/*": () => <Redirect to="/" />,
   };
 
   let res = useRoutes(routes) || <LoginAndSignUp />;

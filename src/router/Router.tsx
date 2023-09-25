@@ -1,4 +1,4 @@
-import {    useRoutes,Redirect   } from "raviger";
+import { useRoutes, Redirect } from "raviger";
 
 import { Suspense, lazy } from "react";
 import CenteredLoader from "../components/CenteredLoader";
@@ -9,7 +9,7 @@ const BoardPage = lazy(() => import("../pages/BoardPage"));
 
 export default function Router(props: { name: string }) {
   const routes = {
-   "/": () => <Redirect to='/Home' />,
+    "/": () => <Redirect to="/Home" />,
     "/Home": () => (
       <Suspense fallback={<CenteredLoader />}>
         <Dashboard name={props.name} />
@@ -21,6 +21,7 @@ export default function Router(props: { name: string }) {
         <BoardPage id={Number(id)} />
       </Suspense>
     ),
+    "/*": () => <Error />,
   };
 
   const res = useRoutes(routes) || <Error />;
