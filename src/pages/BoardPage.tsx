@@ -46,8 +46,6 @@ export default function BoardPage(props: Props) {
     []
   );
 
-  const [dragginId, setDraggingId] = useState<number | null>(null);
-
   const handleClick = (event: React.MouseEvent) => {
     if (event.defaultPrevented) {
       return;
@@ -314,7 +312,6 @@ export default function BoardPage(props: Props) {
                     <div key={stage.id} className="mx-2">
                       <StageCard
                         selectedTaskIds={multiSelectedTaskIds}
-                        draggingTaskId={dragginId}
                         toggleSelection={toggleSelection}
                         key={Number(Math.random() * 10000000000)}
                         onDeleteCB={() => handleDeleteStage(stage.id)}

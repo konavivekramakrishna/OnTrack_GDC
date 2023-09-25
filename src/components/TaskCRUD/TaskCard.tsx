@@ -9,7 +9,7 @@ export function TaskCard(props: {
   index: number;
   selectedTaskIds: number[];
   toggleSelection: (taskId: number) => void;
-  draggingTaskId: number | null;
+ 
 }) {
   const priority = props.task.description.priority;
 
