@@ -8,7 +8,7 @@ import {
 import {
   PresentationChartBarIcon,
   UserCircleIcon,
-  CogIcon,
+ 
   HomeIcon,
   LogoutIcon,
 } from "@heroicons/react/solid";

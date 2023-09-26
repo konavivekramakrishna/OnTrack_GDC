@@ -11,19 +11,9 @@ export function TaskCard(props: {
   selectedTaskIds: number[];
   toggleSelection: (taskId: number) => void;
 }) {
-  const priority = props.task.description.priority;
+   
 
-  const priorityColor = () => {
-    switch (priority) {
-      case "High":
-        return "red";
-      case "Medium":
-        return "yellow";
-      default:
-        return "green";
-    }
-  };
-
+   
   const isTaskSelected = props.selectedTaskIds.includes(props.task.id || 0);
 
   const handleClick = (event: React.MouseEvent) => {

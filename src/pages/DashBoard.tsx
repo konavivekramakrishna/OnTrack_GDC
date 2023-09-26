@@ -6,7 +6,7 @@ import { SearchIcon } from "@heroicons/react/solid";
 import { Sidebar } from "../components/Sidebar";
 import CreateBoard from "../components/BoardCRUD/CreateBoard";
 import { Input } from "@material-tailwind/react";
-import { Board, Task, upTask } from "../types/types";
+import { Board, Task } from "../types/types";
 import {
   deleteBoardWithId,
   getAllBoards,
