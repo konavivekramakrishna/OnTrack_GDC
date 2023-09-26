@@ -6,12 +6,8 @@ import { SearchIcon } from "@heroicons/react/solid";
 import { Sidebar } from "../components/Sidebar";
 import CreateBoard from "../components/BoardCRUD/CreateBoard";
 import { Input } from "@material-tailwind/react";
-import { Board, Task, upTask } from "../types/types";
-import {
-  deleteBoardWithId,
-  getAllBoards,
-  getTaskWithBoardId,
-} from "../utils/apiutils";
+import { Board } from "../types/types";
+import { deleteBoardWithId, getAllBoards } from "../utils/apiutils";
 import { useQueryParams } from "raviger";
 import BoardCard from "../components/BoardCRUD/BoardCard";
 import Loader from "../components/Loader";
@@ -20,7 +16,7 @@ import EditBoard from "../components/BoardCRUD/EditBoard";
 import "react-toastify/dist/ReactToastify.css";
 import { toast, ToastContainer } from "react-toastify";
 
-export default function DashBoard(props: { name: string }) {
+export default function Todo() {
   const [newBoard, setNewBoard] = useState(false);
   const [searchString, setSearchString] = useState("");
   const [boards, setBoards] = useState<Board[]>([]);
@@ -52,61 +48,6 @@ export default function DashBoard(props: { name: string }) {
     const formattedDate = currentDate.toLocaleDateString(undefined, options);
     return formattedDate;
   };
-
-  useEffect(() => {
-    const sendNotificationForTask = (task: Task) => {
-      const dueDate = new Date(task.description.dueDate);
-      const tomorrow = new Date();
-      tomorrow.setDate(tomorrow.getDate() + 1);
-
-      if (dueDate.toDateString() === tomorrow.toDateString()) {
-        if ("Notification" in window) {
-          Notification.requestPermission()
-            .then((permission) => {
-              if (permission === "granted") {
-                const notificationKey = `notification-${task.id}`;
-                const hasNotificationBeenSent =
-                  localStorage.getItem(notificationKey);
-
-                if (!hasNotificationBeenSent) {
-                  new Notification("Task Due Tomorrow", {
-                    body: `Task "${task.title}" is due tomorrow!`,
-                  });
-
-                  localStorage.setItem(notificationKey, "true");
-                }
-              }
-            })
-            .catch((error) => {
-              console.error("Error requesting notification permission:", error);
-            });
-        }
-      }
-    };
-
-    const fetchTasksForBoard = async (boardId: number) => {
-      try {
-        const tasks: Task[] = await getTaskWithBoardId(boardId);
-        tasks.forEach((task) => {
-          sendNotificationForTask(task);
-        });
-      } catch (error) {
-        console.error(`Error fetching tasks for board ${boardId}:`, error);
-      }
-    };
-
-    const fetchTasksForAllBoards = async () => {
-      try {
-        boards.forEach((board: Board) => {
-          fetchTasksForBoard(board.id as number);
-        });
-      } catch (error) {
-        console.error("Error fetching boards:", error);
-      }
-    };
-
-    fetchTasksForAllBoards();
-  }, [boards]);
 
   const handleDelete = async (id: number | undefined) => {
     try {
@@ -185,12 +126,12 @@ export default function DashBoard(props: { name: string }) {
 
   return (
     <div className="flex">
-      <Sidebar Active="Home" />
+      <Sidebar Active="Todo" />
 
       <div className="flex-grow p-4 mt-5">
         <Container>
           <Typography variant="h4" className="mt-2" gutterBottom>
-            Hello, {props.name}
+            Todo
           </Typography>
           <div className="flex items-center mb-3 p-1">
             <CalendarIcon className="h-6 w-6 mr-2" />
@@ -313,7 +254,7 @@ export default function DashBoard(props: { name: string }) {
           />
         </div>
       )}
-      {/* Toast Container */}
+
       <ToastContainer
         position="top-right"
         autoClose={3000}

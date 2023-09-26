@@ -2,6 +2,7 @@ import { Card, CardBody, Typography } from "@material-tailwind/react";
 import { Task } from "../../types/types";
 import { CalendarIcon } from "@heroicons/react/outline";
 import { Draggable } from "react-beautiful-dnd";
+import { Chip } from "@material-tailwind/react";
 
 export function TaskCard(props: {
   task: Task;
@@ -53,7 +54,7 @@ export function TaskCard(props: {
             }`}
           >
             <Card
-              className={`w-[22rem] group hover:bg-gray-50 transition duration-300 m-2 ${
+              className={`w-[20rem] group hover:bg-gray-50   transition duration-300 m-2 ${
                 isTaskSelected ? "border border-blue-500" : ""
               }`}
             >
@@ -109,9 +110,19 @@ export function TaskCard(props: {
                   )}
                 </div>
                 {props.task.description.priority && (
-                  <div className={`text-${priorityColor()}-500`}>
-                    <Typography>{props.task.description.priority}</Typography>
-                  </div>
+                  <Chip
+                    className="mt-2 p-2 w-16 items-center justify-center"
+                    size="sm"
+                    variant="ghost"
+                    value={props.task.description.priority}
+                    color={
+                      props.task.description.priority === "Low"
+                        ? "green"
+                        : props.task.description.priority === "Medium"
+                        ? "amber"
+                        : "red"
+                    }
+                  />
                 )}
               </div>
             </Card>

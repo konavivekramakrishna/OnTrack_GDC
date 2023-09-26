@@ -7,12 +7,19 @@ import Error from "../components/Error";
 const Dashboard = lazy(() => import("../pages/DashBoard"));
 const BoardPage = lazy(() => import("../pages/BoardPage"));
 
+const PrintPage = lazy(() => import("../pages/PrintPage"));
+
 export default function Router(props: { name: string }) {
   const routes = {
     "/": () => <Redirect to="/Home" />,
     "/Home": () => (
       <Suspense fallback={<CenteredLoader />}>
         <Dashboard name={props.name} />
+      </Suspense>
+    ),
+    "/todo": () => (
+      <Suspense fallback={<CenteredLoader />}>
+        <PrintPage />
       </Suspense>
     ),
 

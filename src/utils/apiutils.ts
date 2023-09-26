@@ -113,6 +113,33 @@ export const getTaskWithBoardId = async (bid: number) => {
   });
 };
 
+export const getTaskWithBoardIdForPrintPage = async (bid: number) => {
+  const { results }: { results: upTaskprintPage[] } = await apiCall(
+    `boards/${bid}/tasks/`,
+    "GET"
+  );
+  return results.map((task) => {
+    return {
+      ...task,
+      description: JSON.parse(task.description),
+    };
+  });
+};
+
+export type upTaskprintPage = {
+  id?: number;
+  title: string;
+  description: string;
+  status: number;
+  status_object?: {
+    id: number;
+    title: string;
+  };
+  board?: number;
+};
+
+ 
+
 export const updateTaskWithBoardId = (bid: number, id: number, task: Task) => {
   const stingifiedTask = {
     ...task,

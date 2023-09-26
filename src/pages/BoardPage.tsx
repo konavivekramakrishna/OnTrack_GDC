@@ -78,6 +78,11 @@ export default function BoardPage(props: Props) {
     };
   }, [multiSelectedTaskIds]);
 
+   
+  //
+
+  //
+
   const toggleNewTask = () => {
     setNewTask(!newTask);
   };
@@ -207,36 +212,35 @@ export default function BoardPage(props: Props) {
   return (
     <div>
       <div className="flex">
-        <Sidebar />
+        <Sidebar Active="Boards" />
         {load ? (
           <div className="flex items-center justify-center h-screen w-full">
             <Loader />
           </div>
         ) : (
-          <div className="w-full md:w-1/4 mt-8">
+          <div className="w-full flex-grow   mt-10  md:w-1/4     ">
             <div>
               <Container>
-                <div className="ml-24">
+                <div className=" ml-5">
                   <Typography variant="h4" className="mt-2" gutterBottom>
-                    {board.title}
+                    {board.title ? board.title : "Bord Title"}
                   </Typography>
                   <div className="flex items-center mb-3 p-1">
                     <Typography variant="body1" className="text-gray-600 pt-1">
-                      {board.description}
+                      {board.description
+                        ? board.description
+                        : "Bord Description"}
                     </Typography>
                   </div>
-                  <div className="  bottom-4 right-4 m-2 bg-gray-100 p-2 rounded text-sm text-gray-500">
-                    Use ctrl or cmd to multi-select tasks and dnd
-                  </div>
                   <Grid container spacing={3}>
-                    <Grid item xs={12}>
+                    <Grid item xs={12} sm={6} md={4}>
                       <Button
                         variant="outlined"
                         fullWidth
                         startIcon={<AddIcon />}
-                        onClick={() => setNewStage(true)}
+                        onClick={toggleCreateStage}
                       >
-                        Add New Stage
+                        Add Stage
                       </Button>
                     </Grid>
                   </Grid>

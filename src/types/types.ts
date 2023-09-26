@@ -22,6 +22,7 @@ export type Task = {
   status: number;
   status_object?: {
     id: number;
+    
   };
   board?: number;
 };

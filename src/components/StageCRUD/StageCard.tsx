@@ -11,7 +11,7 @@ import { Droppable } from "react-beautiful-dnd";
 
 export function StageCard(props: {
   selectedTaskIds: number[];
-   
+
   toggleSelection: (taskId: number) => void;
   key: number;
   stage: Stage;
@@ -22,7 +22,7 @@ export function StageCard(props: {
   onEditAndDeleteTaskCB: (tid: number) => void;
 }) {
   return (
-    <Card className="w-full ml-2 p-1 min-w-[15rem] group hover:bg-blue-50 transition duration-300">
+    <Card className="w-full ml-2 p-1 min-w-[15rem] group bg-indigo-50 hover:bg-blue-50 transition duration-300">
       <CardBody className="p-3">
         <div className="mb-3 flex items-center justify-between">
           <Typography
@@ -99,7 +99,6 @@ export function StageCard(props: {
               <TaskCard
                 index={index}
                 selectedTaskIds={props.selectedTaskIds}
-              
                 toggleSelection={props.toggleSelection}
                 key={(task.id as number) + 1}
                 onEditAndDeleteTaskCB={props.onEditAndDeleteTaskCB}
