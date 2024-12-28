@@ -15,7 +15,7 @@ const getToken = () => {
   return token || "";
 };
 
-const BASE_URL = "https://shyamdjangoreactapi.onrender.com/api/";
+const BASE_URL = "https://reactforall.onrender.com/api/";
 
 export const apiCall = async (
   endpoint: string,
